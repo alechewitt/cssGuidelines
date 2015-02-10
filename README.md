@@ -31,12 +31,17 @@ Utilities must use a camel case name, prefixed with a u namespace. What follows 
 #Components
 Syntax: `<componentName>[--modifierName]`
 
+Always look to abstract components. 
+A name like .homepage-nav limits its use. Instead think about writing styles in such a way that they can be reused in other parts of the app. Instead of .homepage-nav, try instead .nav or .nav-bar. Ask yourself if this component could be reused in another context (chances are it could!). But don't create single use components, ask yourself: is it a reusable component or a specific change? If a specific change, could it be dealt with as a utility?
+
+Components should belong to their own less file. For example, all general button definitions should belong in buttons.less.
+
 Component driven development offers several benefits when reading and writing HTML and CSS:
 * It helps to distinguish between the classes for the root of the component, descendant elements, and modifications.
 * It keeps the specificity of selectors low.
 * It helps to decouple presentation semantics from document semantics.
 
-You can think of components as custom elements that enclose specific semantics, styling, and behaviour.
+You can think of components as custom elements that enclose specific semantics, styling, and behaviour. Prefer components over page level styles
 
 ## ComponentName
 The component's name must be written in camel case.
@@ -60,3 +65,198 @@ A component modifier is a class that modifies the presentation of the base compo
 .btn--default { /* … */ }
 <button class="btn btn--primary">…</button>
 ```
+
+# Variables
+
+Syntax: `<property>-<value>`
+
+Variable names in our CSS are also strictly structured. This syntax provides strong associations between property, use, and component.
+
+# Colors
+Use RGB and RGBA color units. When implementing styles only use the color variables provided by constants.less and themes.less. Themed colours should be abstracted:
+
+**Wrong**
+`color-maroon: RGBA(52,121,34,1)`
+**Right**
+`color-brand-primary: RGBA(52,121,34,1)`
+
+
+# Z-Index Scale
+
+Please use the z-index scale defined in z-index.less.
+
+`@zIndex-1 - @zIndex-9` are provided. Nothing should be higher then `@zIndex-9`.
+
+# Typography
+
+Use type variables defined in typography.less.
+
+Raw font weights should be avoided. Instead, use the appropriate font mixin: `.font-sansI7, .font-sansN7, etc.`
+
+The suffix defines the weight and style:
+
+```CSS
+N = normal
+I = italic
+4 = normal font-weight
+7 = bold font-weight
+```
+
+Refer to type.less for type size, letter-spacing, and line height. Raw sizes, spaces, and line heights should be avoided outside of type.less.
+
+
+```CSS
+ex:
+
+@fontSize-micro
+@fontSize-smallest
+@fontSize-smaller
+@fontSize-small
+@fontSize-base
+@fontSize-large
+@fontSize-larger
+@fontSize-largest
+@fontSize-jumbo
+```
+
+# Formatting
+
+The following are some high level page formatting style rules.
+
+<a name="spacing"></a>
+## Spacing
+
+CSS rules should be comma seperated but live on new lines:
+
+**Right:**
+```css
+.content,
+.content-edit {
+  â€¦
+}
+```
+
+**Wrong:**
+```css
+.content, .content-edit {
+  â€¦
+}
+```
+Although, this probably shouldn't happen as Components and Modifiers should be used for overlapping styles.
+
+Within sections CSS blocks should be seperated by a single blank line. Sections should be seperated by a double line space followed by a section title.
+
+**Right:**
+```css
+.content {
+  â€¦
+}
+
+.content-edit {
+  â€¦
+}
+```
+
+**Wrong:**
+```css
+.content {
+  â€¦
+}
+.content-edit {
+  â€¦
+}
+```
+
+
+<a name="quotes"></a>
+## Quotes
+
+Quotes are optional in CSS and LESS. We use double quotes as it is visually clearer that the string is not a selector or a style property.
+
+**Right:**
+```css
+background-image: url("/img/you.jpg");
+font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial;
+```
+
+**Wrong:**
+```css
+background-image: url(/img/you.jpg);
+font-family: Helvetica Neue Light, Helvetica Neue, Helvetica, Arial;
+```
+
+
+#Style Scoping
+Pages should largely be reusing the general component level styles defined above. Page level name-spaces however can be helpful for overriding generic components in very specific contexts. Examples of dealing with page level overrides are shown below 
+
+```
+WRONG - should use specific modifiers
+.home-page {
+  .nav {
+    margin-top: 10px;
+  }
+}
+
+RIGHT - two options
+.nav-homePage {
+	margin-top: 10px;
+}
+class=“nav nav-homePage”
+
+OR
+
+u-marginTopSmall {
+	margin-top: 10px;
+}
+
+class=“nav u-marginTopSmall”
+```
+
+Use utilities solution if that margin is used frequently. 
+
+# Nesting
+
+Don't nest components. Ever.
+
+Nesting reduces the legibility of css. Instead, be specific in your use of class names, component, modifers and utilities. 
+
+**Wrong:**
+
+```css
+.list-btn {
+  .list-btn-inner {
+    .btn {
+      background: red;
+    }
+    .btn:hover {
+      .opacity(.4);
+    }
+  }
+}
+```
+
+**Right:**
+
+```CSS
+.list-btn .btn-inner {
+  background: red;
+}
+.list-btn .btn-inner:hover {
+  .opacity(.4);
+}
+```
+
+# Commenting
+Titles `//== Buttons`
+Subtitles `//## Contains component and modifier button stylings`
+Comments `// Explaining hover effect darkening`
+
+# Images
+Nuke image files.
+Icons can be images.
+Client branding images should sit on Amazon not in source code.
+
+# LESS vs CSS
+Colour functions (eg. darken on hover) should be written in LESS
+Variables will be written in LESS
+The guiding principle is to keep things readable: sometimes pure CSS is better for this sometimes LESS is.
