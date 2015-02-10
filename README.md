@@ -5,13 +5,13 @@
 
 ## Polymer
 * Use Polymer layout attirbutes to align elements: https://www.polymer-project.org/docs/polymer/layout-attrs.html
-* Use simple Polymer components such as <paper-ripple> for effects
+* Use simple Polymer components such as `<paper-ripple>` for effects
 * Discuss usage of more complex Polymer components.
 
 ## LESS vs CSS
 * Colour functions (eg. darken on hover) should be written in LESS
 * Variables will be written in LESS
-* The (slightly wooly) guiding principle is to keep things readable: sometimes pure CSS is better for this sometimes LESS is.
+* The (slightly woolly) guiding principle is to keep things readable: sometimes pure CSS is better for this, sometimes LESS is.
 
 ## Images
 * TODO: Nuke image files.
@@ -58,7 +58,7 @@ Syntax: `<componentName>[--modifierName]`
 Always look to abstract components.
 
 
-A name like .homepage-nav limits its use. Instead think about writing styles in such a way that they can be reused in other parts of the app. Instead of .homepage-nav, try .nav or .nav-bar. Ask yourself if this component could be reused in another context (chances are it could!). But don't create single use components, ask yourself: is it a reusable component or a specific change? If a specific change, could it be dealt with as a utility?
+A name like .homepage-nav limits its use. Instead think about writing styles in such a way that they can be reused in other parts of the app. Instead of .homepage-nav, try .nav or .nav-bar. Ask yourself if this component could be reused in another context. But don't create single use components. Ask yourself: is it really a reusable component or a specific change? If a specific change, could it be dealt with as a utility or modifier?
 
 
 Components should belong to their own less file. For example, all general button definitions belong in buttons.less.
@@ -91,14 +91,14 @@ A component modifier is a class that modifies the presentation of the base compo
 
 ```
 /* Default button style */
-.btn--default { /* … */ }
+.btn--primary { /* … */ }
 <button class="btn btn--primary">…</button>
 ```
 
 
 ## Nesting
 
-Don't nest components. Ever.
+Don't nest components.
 
 Nesting reduces the legibility of css. Instead, be specific in your use of class names, component, modifers and utilities. 
 
@@ -131,7 +131,7 @@ Nesting reduces the legibility of css. Instead, be specific in your use of class
 ## Style Scoping
 Pages should largely be reusing the general component level styles defined above. Page level name-spaces however can be helpful for overriding generic components in very specific contexts. Examples of dealing with page level overrides are shown below 
 
-** WRONG - should use specific modifiers **
+**WRONG - should use specific modifiers:**
 ```
 .home-page {
   .nav {
@@ -139,7 +139,7 @@ Pages should largely be reusing the general component level styles defined above
   }
 }
 ```
-** RIGHT - two options **
+**RIGHT - two options**
 ```
 .nav-homePage {
 	margin-top: 10px;
@@ -154,7 +154,7 @@ u-marginTopSmall {
 
 class=“nav u-marginTopSmall”
 ```
-Which solution is preferred? [Will - I think I prefer the modifier approach to the utility approach as I think different pages will have slightly different spacing requirements which would require an inordinate number of utilities to meet]
+Which solution is preferred? *[Will - I prefer the modifier approach to the utility approach. I think different pages will have slightly different spacing requirements. It would require an inordinate number of utilities to meet all of those requirements]*
 
 # Variables
 
@@ -167,6 +167,7 @@ Use RGB and RGBA color units. When implementing styles only use the color variab
 
 **Wrong**
 `color-maroon: RGBA(52,121,34,1)`
+
 **Right**
 `color-brand-primary: RGBA(52,121,34,1)`
 
@@ -220,23 +221,6 @@ ex:
 
 ## Spacing
 
-CSS rules should be comma seperated but live on new lines. This probably shouldn't happen anyways as components and modifiers should be used for overlapping styles.
-
-**Right:**
-```css
-.content,
-.content-edit {
-  â€¦
-}
-```
-
-**Wrong:**
-```css
-.content, .content-edit {
-  â€¦
-}
-```
-
 Within sections, CSS blocks should be seperated by a single blank line. Sections should be seperated by a double line space followed by a section title.
 
 **Right:**
@@ -256,6 +240,23 @@ Within sections, CSS blocks should be seperated by a single blank line. Sections
   â€¦
 }
 .content-edit {
+  â€¦
+}
+```
+
+CSS rules should be comma seperated but live on new lines. This probably shouldn't happen anyway as components and modifiers should be used for overlapping styles.
+
+**Right:**
+```css
+.content,
+.content-edit {
+  â€¦
+}
+```
+
+**Wrong:**
+```css
+.content, .content-edit {
   â€¦
 }
 ```
